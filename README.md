@@ -45,5 +45,5 @@ Lightroom Classic, macOS and Windows. Requires a valid FTP account.
 [Pixilive](https://about.pixi.live) is a real-time photo distribution platform for professional events (conferences, trade shows, seminars). Organizers get instant, no-app-required photo delivery to attendees, speakers, and partners — with measurable engagement stats.
 
 ## Support
-
-Questions or issues? Contact contact@pixi.live or visit [about.pixi.live](https://about.pixi.live).
+Found a bug or have a question? Open an issue on this repo — it helps other users find answers too.
+For anything else, contact contact@pixi.live or visit [about.pixi.live](https://about.pixi.live).
