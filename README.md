@@ -46,4 +46,4 @@ Lightroom Classic, macOS and Windows. Requires a valid FTP account.
 
 ## Support
 
-Questions or issues? Contact william.jezequel@gmail.com or visit [about.pixi.live](https://about.pixi.live).
+Questions or issues? Contact contact@pixi.live or visit [about.pixi.live](https://about.pixi.live).
