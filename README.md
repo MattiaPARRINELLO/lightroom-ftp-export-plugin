@@ -1,4 +1,4 @@
-# Lightroom to FTP Export Plugin
+# Lightroom to FTP - Export Plugin
 
 A free, lightweight Lightroom Classic plugin that lets you export photos directly to an FTP server — no manual export-then-upload step, no other third-party plugin required.
 
