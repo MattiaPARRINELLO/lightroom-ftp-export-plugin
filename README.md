@@ -1,49 +1,92 @@
-# Lightroom to FTP - Export Plugin
+# MPRNL FTP Exporter
 
-A free, lightweight Lightroom Classic plugin that lets you export photos directly to an FTP server — no manual export-then-upload step, no other third-party plugin required.
+Plugin **Lightroom Classic** qui envoie les photos directement vers un serveur
+FTP — sans étape « exporter puis téléverser à la main » — puis exécute des
+commandes sur le serveur en SSH après chaque export.
 
-Built and maintained by [Pixilive](https://about.pixi.live), a real-time photo management platform for professional events.
+**Site : [mprnl.fr](https://mprnl.fr)**
 
-## Why this plugin
+> Ce dépôt est un **fork** de
+> [`Pixilive/lightroom-ftp-export-plugin`](https://github.com/Pixilive/lightroom-ftp-export-plugin),
+> rebrandé et considérablement étendu. Voir la section [Attribution](#attribution).
 
-Lightroom Classic doesn't include FTP export out of the box. Most existing FTP export plugins are either outdated, paid, or both. This one is free, actively maintained, and works with **any** FTP server — not just Pixilive's.
+## Fonctionnalités
 
-## Features
+### Export
 
-- Direct FTP export from Lightroom Classic (server, username, password, port, active/passive mode)
-- Password stored securely in your system's keychain — never written to disk in plain text
-- Works with any FTP server, not just Pixilive
-- Recommended export settings (JPEG, 2048px long edge, 72 dpi, full metadata) applied automatically when exporting to the Pixilive server
-- Behaves like any standard Lightroom export preset
+- Destination FTP intégrée à la boîte d'export de Lightroom (serveur,
+  utilisateur, mot de passe, port, mode passif/actif).
+- **Navigation dans les dossiers du serveur depuis l'interface** : descente en
+  un clic, saut à n'importe quel niveau du chemin en un clic, création de
+  dossier, chemin affiché en permanence dans la « Destination finale ».
+- **Sous-dossier automatique `AAAA-MM-JJ`**, calculé sur la date de prise de
+  vue de la **première** photo de la série (une séance qui se prolonge après
+  minuit reste sous la date de départ), créé automatiquement.
+- **Envois simultanés** (1 à 4, 3 par défaut) avec reconnexion et **3 tentatives
+  par fichier** en cas d'échec, puis **proposition de reprendre** les envois
+  en échec.
+- **Trois barres de progression distinctes** : rendu des photos, transferts
+  (avec le nom du fichier en cours) et réindexation du serveur.
+
+### Masques IA
+
+Lightroom ne recalcule pas les masques générés par IA tout seul. Au lancement
+de l'export, le plugin **vérifie les photos concernées et propose de les
+recalculer** avant d'envoyer quoi que ce soit.
+
+### Commandes SSH après l'export
+
+- Exécution systématique après chaque export complet (via `plink.exe`,
+  fourni avec PuTTY), **après** la fin de tous les transferts.
+- Compte SSH **identique au compte FTP** : aucun identifiant à ressaisir.
+- Clé d'hôte récupérée automatiquement (`ssh-keyscan`), ou épinglable.
+- **Résultat du scan affiché** à la fin de l'export.
 
 ## Installation
 
-1. Download the latest `.zip` from the [Releases](../../releases) page.
-2. Unzip it. You should get a folder named `Pixilive-FTP-Uploader.lrplugin`.
-3. Move that folder somewhere permanent on your disk (Lightroom reads it in place, it doesn't copy it).
-4. In Lightroom Classic: **File → Plug-in Manager...**
-5. Click **Add**, then select the `Pixilive-FTP-Uploader.lrplugin` folder.
-6. Confirm the status shows **"Installed and running"**.
+1. Récupère le dossier `MPRNL-FTP-Exporter.lrplugin` (Release ou clone du dépôt).
+2. Place-le à un endroit permanent de ton disque (Lightroom le lit en place).
+3. Dans Lightroom Classic : **Fichier → Gestionnaire des plugins…**
+4. **Ajouter**, puis sélectionner le dossier `MPRNL-FTP-Exporter.lrplugin`.
+5. Vérifie que le statut indique **« Installé et en cours d'exécution »**.
 
-## Usage
+## Utilisation
 
-1. Select your photos, then **File → Export...**
-2. Under **"Export To:"**, choose **"Pixilive FTP Uploader"**.
-3. Enter your FTP server, username, and password.
-4. Click **Export**.
+1. Sélectionne tes photos, puis **Fichier → Exporter…**
+2. Dans **« Exporter vers »**, choisis **« MPRNL FTP Exporter »**.
+3. Renseigne le **Dossier distant** (bouton **Parcourir…** pour naviguer).
+4. Clique sur **Exporter**.
 
-Tip: once configured, save these settings as a Lightroom **Export Preset** (the "Add" button at the bottom-left of the export dialog) so you don't have to re-enter them next time.
+Tout le reste (serveur, SSH, envois simultanés…) se règle dans la section
+**« Réglages avancés »**, fermée par défaut : une fois configuré, on n'y
+revient plus.
 
-To export to a different FTP server, just replace the "Server" field — the plugin works generically with any FTP host.
+Une fois réglé, enregistre le tout en **preset d'export Lightroom** (bouton
+« Ajouter » en bas à gauche de la fenêtre d'export).
 
-## Compatibility
+## Documentation détaillée
 
-Lightroom Classic, macOS and Windows. Requires a valid FTP account.
+L'ensemble des réglages, le journal de diagnostic, les contraintes du SDK
+Lightroom et les notes de sécurité sont décrits dans
+**[DOCUMENTATION.md](DOCUMENTATION.md)**.
 
-## About Pixilive
+## Compatibilité
 
-[Pixilive](https://about.pixi.live) is a real-time photo distribution platform for professional events (conferences, trade shows, seminars). Organizers get instant, no-app-required photo delivery to attendees, speakers, and partners — with measurable engagement stats.
+Lightroom Classic 15.3 et suivants (SDK 15.3), Windows et macOS.
+Serveur FTP requis ; `plink.exe` (PuTTY) requis pour les commandes SSH.
+
+## Attribution
+
+Fork de [`Pixilive/lightroom-ftp-export-plugin`](https://github.com/Pixilive/lightroom-ftp-export-plugin),
+initialement écrit et maintenu par
+[Pixilive](https://about.pixi.live). Les modifications, extensions et le
+rebranding de cette version sont proposés ici ; l'auteur d'origine reste
+crédité.
+
+Le dépôt amont ne comporte **aucune licence explicite**. Ce fork est donc
+distribué à titre de contribution / usage personnel, sans retrait des
+droits d'auteur de l'auteur d'origine.
 
 ## Support
-Found a bug or have a question? Open an issue on this repo — it helps other users find answers too.
-For anything else, contact contact@pixi.live or visit [about.pixi.live](https://about.pixi.live).
+
+Un bug ou une question ? Ouvre une *issue* sur ce dépôt.
